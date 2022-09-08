@@ -9,14 +9,14 @@
 # TODO: create records from csv at url https://gist.github.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6
 
 require 'csv'
-require 'net/http'
-require 'uri'
-url = URI('https://gist.githubusercontent.com/armgilles/194bcff35001e7eb53a2a8b441e8b2c6/raw/92200bc0a673d5ce2110aaad4544ed6c4010f687/pokemon.csv')
 
-txt = Net::HTTP.get(url)
-puts txt
-csv = CSV.parse(txt, :headers => true)
-csv.each do |row|
-  puts row
-  Pokemon.create(row.to_hash)
+File.open("db/pokemon.csv") do |file|
+  puts file.readline
+  csv = CSV.new(file.read, headers: [
+    :sequence,:name,:type1,:type2,:total,:hp,:attack,
+    :defense,:special_attack,:special_defense,:speed,
+    :generation,:lengendary]).each do |row|
+    puts row.to_hash
+    Pokemon.create(row.to_hash)
+  end
 end

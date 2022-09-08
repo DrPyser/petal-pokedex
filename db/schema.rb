@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema[7.0].define(version: 2022_09_07_025430) do
   create_table "pokemons", force: :cascade do |t|
+    t.integer "sequence"
     t.string "name"
     t.integer "type1"
     t.integer "type2"
