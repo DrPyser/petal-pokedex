@@ -1,4 +1,5 @@
 require "test_helper"
+require "json"
 
 class PokemonsControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -7,7 +8,15 @@ class PokemonsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     get pokemons_url, as: :json
+    # puts @response.body
     assert_response :success
+  end
+
+  test "should get page" do
+    get pokemons_url + "?page=1&per=2", as: :json 
+    assert_response :success
+    # puts @response.parsed_body
+    assert_equal @response.parsed_body.length, 2
   end
 
   test "should create pokemon" do
